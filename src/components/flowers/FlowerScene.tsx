@@ -20,9 +20,15 @@ function generateLetterPoints() {
   const pts: {char: string, x: number, y: number}[] = [];
   const add = (char: string, x: number, y: number) => pts.push({char, x, y});
   
-  // T
-  [0,1,2,3,4].forEach(x => add('T', x, 6));
-  [0,1,2,3,4,5].forEach(y => add('T', 2, y)); 
+  // K
+  [0,1,2,3,4,5,6].forEach(y => add('K', 0, y));
+  add('K', 0.5, 3.5); add('K', 1, 4); add('K', 1.5, 4.5); add('K', 2, 5); add('K', 2.5, 5.5); add('K', 3, 6);
+  add('K', 0.5, 2.5); add('K', 1, 2); add('K', 1.5, 1.5); add('K', 2, 1); add('K', 2.5, 0.5); add('K', 3, 0);
+  
+  // I
+  [0,1,2,3,4].forEach(x => add('I', x, 6));
+  [1,2,3,4,5].forEach(y => add('I', 2, y));
+  [0,1,2,3,4].forEach(x => add('I', x, 0)); 
   
   // R
   [0,1,2,3,4,5,6].forEach(y => add('R', 0, y));
@@ -31,32 +37,21 @@ function generateLetterPoints() {
   [1,2,3].forEach(x => add('R', x, 3));
   add('R', 2, 2); add('R', 3, 1); add('R', 4, 0); 
   
-  // I
-  [0,1,2,3,4].forEach(x => add('I', x, 6));
-  [1,2,3,4,5].forEach(y => add('I', 2, y));
-  [0,1,2,3,4].forEach(x => add('I', x, 0)); 
-  
-  // S
-  add('S', 4, 6); add('S', 3, 6); add('S', 2, 6); add('S', 1, 6); add('S', 0, 5.5);
-  add('S', 0, 4.5); add('S', 1, 4); add('S', 2, 3.5); add('S', 3, 3);
-  add('S', 4, 2.5); add('S', 4, 1.5);
-  add('S', 3, 0); add('S', 2, 0); add('S', 1, 0); add('S', 0, 0); 
-
-  // H
-  [0,1,2,3,4,5,6].forEach(y => add('H', 0, y));
-  [0,1,2,3,4,5,6].forEach(y => add('H', 4, y));
-  [1,2,3].forEach(x => add('H', x, 3)); 
-  
   // A
   add('A', 2, 6);
   add('A', 1.5, 5); add('A', 1, 4); add('A', 0.5, 3); add('A', 0, 2); add('A', -0.5, 1); add('A', -1, 0);
   add('A', 2.5, 5); add('A', 3, 4); add('A', 3.5, 3); add('A', 4, 2); add('A', 4.5, 1); add('A', 5, 0);
   add('A', 0.5, 2.5); add('A', 1.5, 2.5); add('A', 2.5, 2.5); add('A', 3.5, 2.5); 
+
+  // N
+  [0,1,2,3,4,5,6].forEach(y => add('N', 0, y));
+  add('N', 1, 5); add('N', 1.5, 4.5); add('N', 2, 4); add('N', 2.5, 3.5); add('N', 3, 3); add('N', 3.5, 2.5); add('N', 4, 2); add('N', 4.5, 1.5); add('N', 5, 1);
+  [0,1,2,3,4,5,6].forEach(y => add('N', 6, y));
   
   return pts;
 }
 
-const letterOffsets = { T: 0, R: 9, I: 18, S: 26, H: 35, A: 45 }; 
+const letterOffsets = { K: 0, I: 9, R: 18, A: 28, N: 38 }; 
 const targetPositions = generateLetterPoints().map(pt => ({
   x: pt.x + letterOffsets[pt.char as keyof typeof letterOffsets],
   y: pt.y
@@ -78,12 +73,12 @@ const flowers = Array.from({ length: numFlowers }).map((_, i) => {
   const jitterY = (Math.random() - 0.5) * 0.4;
 
   // Desktop spell positions (vw units)
-  const spellX = (targetPt.x - 24) * 1.5 + jitterX; 
+  const spellX = (targetPt.x - 22) * 1.5 + jitterX; 
   const spellY = (targetPt.y - 3) * -3.2 + jitterY; 
 
-  // Mobile spell positions — scaled down to fit portrait screen
-  const spellXMobile = (targetPt.x - 24) * 0.85 + jitterX;
-  const spellYMobile = (targetPt.y - 3) * -1.8 + jitterY;
+  // Mobile spell positions — properly spaced to span the portrait screen
+  const spellXMobile = (targetPt.x - 22) * 2.05 + jitterX;
+  const spellYMobile = (targetPt.y - 3) * -3.6 + jitterY;
   
   const sizeVw = 24;
   
@@ -152,14 +147,14 @@ export default function FlowerScene({ onComplete }: FlowerSceneProps) {
             const isExpanding = phase === "expanding";
             
             const targetX = isExpanding
-              ? flower.spiralX
+              ? (isMobile ? flower.spiralX * 1.5 : flower.spiralX)
               : isMobile ? flower.spellXMobile : flower.spellX;
             const targetY = isExpanding
-              ? flower.spiralY
+              ? (isMobile ? flower.spiralY * 2.2 : flower.spiralY)
               : isMobile ? flower.spellYMobile : flower.spellY;
             
             // On mobile, flowers are smaller in spell phase to fit the portrait viewport
-            const spellSize = isMobile ? 8 : 5.5;
+            const spellSize = isMobile ? 6.5 : 5.5;
             const targetScale = isExpanding ? 1 : spellSize / flower.sizeVw; 
 
             return (

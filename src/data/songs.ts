@@ -22,7 +22,7 @@ export const songs: Song[] = [
     title: "Barbaad",
     artist: "Arjit singh",
     cover: "/images/songs/song-01.jpg",
-    memory: "The song that you dedicated to me ",
+    memory: "A song you once dedicated to me",
   },
   {
     title: "All I Need",
@@ -31,10 +31,10 @@ export const songs: Song[] = [
     memory: "The Song I listen When I Miss You",
   },
   {
-    title: "Perfect",
+    title: "Dhun",
     artist: "Jubin Nautiyal",
     cover: "/images/songs/song-03.jpg",
-    memory: "Song I Listen When I Had Crush On You",
+    memory: "Reminds me of the early days",
   },
   {
     title: "All of Me",

@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { SECRET_CODE } from "@/data/content";
+import { SECRET_CODE, content } from "@/data/content";
 
 interface PasscodeScreenProps {
   onUnlock: () => void;
@@ -143,6 +143,16 @@ export default function PasscodeScreen({ onUnlock }: PasscodeScreenProps) {
               );
             })}
           </motion.div>
+
+          {/* Hint Text */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8, duration: 0.8 }}
+            className="mt-10 text-xs sm:text-sm text-gray-400 font-sans tracking-[0.2em] uppercase text-center"
+          >
+            {content.passcodeHint}
+          </motion.p>
         </motion.div>
       ) : (
         <motion.div

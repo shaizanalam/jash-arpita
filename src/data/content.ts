@@ -3,37 +3,33 @@
 // ============================================
 
 /** The passcode required to unlock the website */
-export const SECRET_CODE = "270626";
+export const SECRET_CODE = "123123";
 
 /** All text content used throughout the site */
 export const content = {
   /** Browser tab title */
-  siteTitle: "A Little Something For You",
+  siteTitle: "Happy Birthday Kiran",
 
   /** Passcode screen */
-  passcodeHint: "Enter our secret code",
+  passcodeHint: "Hint: 123123",
 
   /** Memory section overlay text */
-  memoryHeading: "I love you so much, baby",
+  memoryHeading: "Happy Birthday, Kiran",
 
   /** Letter section */
-  letterGreeting: "My Dearest,",
-  letterBody: `I am writing this because words sometimes catch in my throat when I look at you, overwhelmed by how much you mean to me. Please keep this letter somewhere safe   it holds every feeling I struggle to say out loud.
+  letterGreeting: "Dear Kiran,",
+  letterBody: `Even though things have changed between us, I couldn't let your birthday pass without wishing you the best. You've always been someone special, and I still cherish the good memories we shared.
 
-From the very first moment, something about you felt like coming home. Your laugh, the way your eyes light up when you talk about the things you love, the quiet strength you carry without even knowing it   all of it drew me in and never let go.
+I hope this coming year brings you so much happiness, success, and everything you've ever hoped for. You deserve to smile, to laugh, and to experience all the beautiful things life has to offer.
 
-Every day with you is a gift I never thought I deserved. You make the ordinary feel extraordinary, and even the hardest days feel bearable simply because you exist in my world.
-
-I want you to know that I see you  all of you. The beautiful parts and the messy parts, the brave moments and the vulnerable ones. And I choose you, completely, in every single one of them.
-
-Thank you for loving me in a way that makes me want to be better. Thank you for being my safe place, my favorite person, and my greatest adventure.`,
-  letterSignature: "Forever yours",
-  letterSignatureName: "Shaizan ",
+Take care of yourself, and I hope you have a truly wonderful birthday tomorrow. May your day be filled with love and joy.`,
+  letterSignature: "Best wishes always,",
+  letterSignatureName: "Adarsh",
 
   /** Songs section */
-  songsHeading: "Our Songs",
-  songsSubheading: "THE SOUNDTRACK TO US",
+  songsHeading: "Some Good Memories",
+  songsSubheading: "SONGS THAT REMIND ME OF THE GOOD TIMES",
 
   /** Finale section */
-  finalMessage: "I love you, to the moon and back",
+  finalMessage: "Wishing you the happiest of birthdays, Kiran",
 };

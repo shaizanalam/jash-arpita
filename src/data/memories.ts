@@ -51,7 +51,7 @@ export const memories: Memory[] = [
   },
   {
     image: "/images/memories/8.jpg",
-    caption: "REALLY WANA SEE THIS TRISHAA",
+    caption: "REALLY WANA SEE THIS KIRAN",
     rotation: 2,
   },
 ];
