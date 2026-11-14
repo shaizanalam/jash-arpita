@@ -15,46 +15,63 @@ const flowerImages = [
   "/images/flowers/flower-09.png",
 ];
 
-// High-resolution grid definition to draw thick, beautiful letters
+// Build well-formed letter points for "ARPITA".
+// Coordinates are natural to each letter (y: 0 bottom → 6 top).
 function generateLetterPoints() {
-  const pts: {char: string, x: number, y: number}[] = [];
-  const add = (char: string, x: number, y: number) => pts.push({char, x, y});
-  
-  // K
-  [0,1,2,3,4,5,6].forEach(y => add('K', 0, y));
-  add('K', 0.5, 3.5); add('K', 1, 4); add('K', 1.5, 4.5); add('K', 2, 5); add('K', 2.5, 5.5); add('K', 3, 6);
-  add('K', 0.5, 2.5); add('K', 1, 2); add('K', 1.5, 1.5); add('K', 2, 1); add('K', 2.5, 0.5); add('K', 3, 0);
-  
-  // I
-  [0,1,2,3,4].forEach(x => add('I', x, 6));
-  [1,2,3,4,5].forEach(y => add('I', 2, y));
-  [0,1,2,3,4].forEach(x => add('I', x, 0)); 
-  
-  // R
-  [0,1,2,3,4,5,6].forEach(y => add('R', 0, y));
-  [1,2,3].forEach(x => add('R', x, 6));
-  add('R', 4, 5.5); add('R', 4, 4.5); add('R', 4, 3.5);
-  [1,2,3].forEach(x => add('R', x, 3));
-  add('R', 2, 2); add('R', 3, 1); add('R', 4, 0); 
-  
-  // A
-  add('A', 2, 6);
-  add('A', 1.5, 5); add('A', 1, 4); add('A', 0.5, 3); add('A', 0, 2); add('A', -0.5, 1); add('A', -1, 0);
-  add('A', 2.5, 5); add('A', 3, 4); add('A', 3.5, 3); add('A', 4, 2); add('A', 4.5, 1); add('A', 5, 0);
-  add('A', 0.5, 2.5); add('A', 1.5, 2.5); add('A', 2.5, 2.5); add('A', 3.5, 2.5); 
+  const pts: { char: string; x: number; y: number }[] = [];
+  const add = (char: string, x: number, y: number) => pts.push({ char, x, y });
 
-  // N
-  [0,1,2,3,4,5,6].forEach(y => add('N', 0, y));
-  add('N', 1, 5); add('N', 1.5, 4.5); add('N', 2, 4); add('N', 2.5, 3.5); add('N', 3, 3); add('N', 3.5, 2.5); add('N', 4, 2); add('N', 4.5, 1.5); add('N', 5, 1);
-  [0,1,2,3,4,5,6].forEach(y => add('N', 6, y));
-  
+  // ---- A (letter 1) ----
+  const addA = (key: string) => {
+    add(key, 2, 6);
+    add(key, 1.5, 5); add(key, 1, 4); add(key, 0.5, 3); add(key, 0, 2); add(key, -0.5, 1); add(key, -1, 0);
+    add(key, 2.5, 5); add(key, 3, 4); add(key, 3.5, 3); add(key, 4, 2); add(key, 4.5, 1); add(key, 5, 0);
+    add(key, 0.5, 2.5); add(key, 1.5, 2.5); add(key, 2.5, 2.5); add(key, 3.5, 2.5);
+  };
+  addA("A1");
+
+  // ---- R ----
+  for (let y = 0; y <= 6; y++) add("R", 0, y);
+  [1, 2, 3].forEach((x) => add("R", x, 6));
+  add("R", 4, 5.5); add("R", 4, 4.5); add("R", 4, 3.5);
+  [1, 2, 3].forEach((x) => add("R", x, 3));
+  add("R", 2, 2); add("R", 3, 1); add("R", 4.5, 0);
+
+  // ---- P ----
+  for (let y = 0; y <= 6; y++) add("P", 0, y);
+  [1, 2, 3].forEach((x) => add("P", x, 6));
+  add("P", 4, 5.5); add("P", 4, 4.5); add("P", 4, 3.5);
+  [1, 2, 3].forEach((x) => add("P", x, 3));
+
+  // ---- I ----
+  [0, 1, 2, 3, 4].forEach((x) => add("I", x, 6));
+  for (let y = 1; y <= 5; y++) add("I", 2, y);
+  [0, 1, 2, 3, 4].forEach((x) => add("I", x, 0));
+
+  // ---- T ----
+  [0, 1, 2, 3, 4].forEach((x) => add("T", x, 6));
+  for (let y = 0; y <= 6; y++) add("T", 2, y);
+
+  // ---- A (letter 2) ----
+  addA("A2");
+
   return pts;
 }
 
-const letterOffsets = { K: 0, I: 9, R: 18, A: 28, N: 38 }; 
-const targetPositions = generateLetterPoints().map(pt => ({
-  x: pt.x + letterOffsets[pt.char as keyof typeof letterOffsets],
-  y: pt.y
+// Horizontal pitch per letter — generous gaps keep the letters distinct
+// even when the flowers are large.
+const letterOffsets: Record<string, number> = {
+  A1: 1, // natural -1..5  →  0..6
+  R: 8, // natural  0..4.5 →  8..12.5
+  P: 15, // natural  0..4   → 15..19
+  I: 22, // natural  0..4   → 22..26
+  T: 29, // natural  0..4   → 29..33
+  A2: 36, // natural -1..5  → 35..41
+};
+
+const targetPositions = generateLetterPoints().map((pt) => ({
+  x: pt.x + letterOffsets[pt.char],
+  y: pt.y,
 }));
 
 const numFlowers = targetPositions.length;
@@ -62,26 +79,29 @@ const armGap = 9;
 const chainGap = 9;
 const b = armGap / (2 * Math.PI);
 
+// Total horizontal span is 0..41, so the visual centre is 20.5.
+const centerX = 20.5;
+
 const flowers = Array.from({ length: numFlowers }).map((_, i) => {
-  const theta = Math.sqrt((2 * chainGap / b) * i);
-  const radius = b * theta; 
+  const theta = Math.sqrt(((2 * chainGap) / b) * i);
+  const radius = b * theta;
   const spiralX = Math.cos(-theta) * radius;
   const spiralY = Math.sin(-theta) * radius;
-  
+
   const targetPt = targetPositions[i];
-  const jitterX = (Math.random() - 0.5) * 0.4;
-  const jitterY = (Math.random() - 0.5) * 0.4;
+  const jitterX = (Math.random() - 0.5) * 0.35;
+  const jitterY = (Math.random() - 0.5) * 0.35;
 
-  // Desktop spell positions (vw units)
-  const spellX = (targetPt.x - 22) * 1.5 + jitterX; 
-  const spellY = (targetPt.y - 3) * -3.2 + jitterY; 
+  // Desktop spell positions (vw units) — wide spread so big flowers don't merge
+  const spellX = (targetPt.x - centerX) * 2.1 + jitterX;
+  const spellY = (targetPt.y - 3) * -3.0 + jitterY;
 
-  // Mobile spell positions — properly spaced to span the portrait screen
-  const spellXMobile = (targetPt.x - 22) * 2.05 + jitterX;
-  const spellYMobile = (targetPt.y - 3) * -3.6 + jitterY;
-  
+  // Mobile spell positions — portrait-friendly
+  const spellXMobile = (targetPt.x - centerX) * 1.85 + jitterX;
+  const spellYMobile = (targetPt.y - 3) * -2.8 + jitterY;
+
   const sizeVw = 24;
-  
+
   return {
     id: i,
     src: flowerImages[i % flowerImages.length],
@@ -91,11 +111,11 @@ const flowers = Array.from({ length: numFlowers }).map((_, i) => {
     spellY,
     spellXMobile,
     spellYMobile,
-    sizeVw, 
-    delay: i * 0.07, 
-    rotation: (theta * (180 / Math.PI)) + (Math.random() * 40 - 20), 
-    spinDuration: 25 + Math.random() * 25, 
-    spinDirection: i % 2 === 0 ? 360 : -360, 
+    sizeVw,
+    delay: i * 0.055,
+    rotation: theta * (180 / Math.PI) + (Math.random() * 40 - 20),
+    spinDuration: 20 + Math.random() * 20,
+    spinDirection: i % 2 === 0 ? 360 : -360,
     zIndex: i,
   };
 });
@@ -112,7 +132,6 @@ export default function FlowerScene({ onComplete }: FlowerSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Detect mobile on mount
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);
@@ -121,11 +140,9 @@ export default function FlowerScene({ onComplete }: FlowerSceneProps) {
 
   useEffect(() => {
     const timers: NodeJS.Timeout[] = [];
-
-    timers.push(setTimeout(() => setPhase("spell"), 9000));
-    timers.push(setTimeout(() => setPhase("done"), 12500));
-    timers.push(setTimeout(() => onComplete(), 12800));
-
+    timers.push(setTimeout(() => setPhase("spell"), 8500));
+    timers.push(setTimeout(() => setPhase("done"), 12000));
+    timers.push(setTimeout(() => onComplete(), 12400));
     return () => timers.forEach(clearTimeout);
   }, [onComplete]);
 
@@ -145,20 +162,28 @@ export default function FlowerScene({ onComplete }: FlowerSceneProps) {
         <div className="relative w-full h-full overflow-hidden">
           {flowers.map((flower) => {
             const isExpanding = phase === "expanding";
-            
+
             const targetX = isExpanding
-              ? (isMobile ? flower.spiralX * 1.5 : flower.spiralX)
-              : isMobile ? flower.spellXMobile : flower.spellX;
+              ? isMobile
+                ? flower.spiralX * 1.5
+                : flower.spiralX
+              : isMobile
+                ? flower.spellXMobile
+                : flower.spellX;
             const targetY = isExpanding
-              ? (isMobile ? flower.spiralY * 2.2 : flower.spiralY)
-              : isMobile ? flower.spellYMobile : flower.spellY;
-            
-            // On mobile, flowers are smaller in spell phase to fit the portrait viewport
-            const spellSize = isMobile ? 6.5 : 5.5;
-            const targetScale = isExpanding ? 1 : spellSize / flower.sizeVw; 
+              ? isMobile
+                ? flower.spiralY * 2.2
+                : flower.spiralY
+              : isMobile
+                ? flower.spellYMobile
+                : flower.spellY;
+
+            // Flowers render big and lush when spelling the name
+            const spellSize = isMobile ? 5 : 4.5;
+            const targetScale = isExpanding ? 1 : spellSize / flower.sizeVw;
 
             return (
-               <motion.div
+              <motion.div
                 key={flower.id}
                 className="absolute"
                 style={{
@@ -170,24 +195,24 @@ export default function FlowerScene({ onComplete }: FlowerSceneProps) {
                   marginTop: `-${flower.sizeVw / 2}vw`,
                   marginLeft: `-${flower.sizeVw / 2}vw`,
                 }}
-                initial={{ 
-                  opacity: 0, 
-                  scale: 0, 
-                  x: 0, 
-                  y: 0, 
-                  rotate: flower.rotation - 180 
+                initial={{
+                  opacity: 0,
+                  scale: 0,
+                  x: 0,
+                  y: 0,
+                  rotate: flower.rotation - 180,
                 }}
-                animate={{ 
-                  opacity: 1, 
-                  scale: targetScale, 
-                  x: `${targetX}vw`, 
-                  y: `${targetY}vw`, 
-                  rotate: flower.rotation 
+                animate={{
+                  opacity: 1,
+                  scale: targetScale,
+                  x: `${targetX}vw`,
+                  y: `${targetY}vw`,
+                  rotate: flower.rotation,
                 }}
                 transition={{
                   delay: isExpanding ? flower.delay : 0,
-                  duration: isExpanding ? 1.4 : 2.0,
-                  ease: isExpanding ? "easeInOut" : [0.4, 0, 0.2, 1], 
+                  duration: isExpanding ? 1.3 : 1.8,
+                  ease: isExpanding ? "easeInOut" : [0.4, 0, 0.2, 1],
                 }}
               >
                 <motion.img
@@ -197,13 +222,13 @@ export default function FlowerScene({ onComplete }: FlowerSceneProps) {
                   transition={{
                     duration: flower.spinDuration,
                     repeat: Infinity,
-                    ease: "linear"
+                    ease: "linear",
                   }}
                   style={{
                     width: "100%",
                     height: "100%",
                     objectFit: "contain",
-                    willChange: "transform"
+                    willChange: "transform",
                   }}
                   loading="eager"
                 />
@@ -227,13 +252,12 @@ export default function FlowerScene({ onComplete }: FlowerSceneProps) {
               animate={{ y: [0, -6, 0] }}
               transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
             >
-              Scroll to Explore
+              Unlock to Explore
             </motion.p>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Cinematic fade-to-black transition out */}
       <AnimatePresence>
         {phase === "done" && (
           <motion.div

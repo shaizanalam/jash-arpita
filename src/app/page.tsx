@@ -23,7 +23,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="relative">
+    <main className="relative bg-cream min-h-screen selection:bg-crimson-200 selection:text-crimson-900">
       {/* Passcode Lock Screen */}
       <AnimatePresence mode="wait">
         {state === "locked" && (
@@ -31,7 +31,7 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* Flower Transition */}
+      {/* Flower Transition — spells "Arpita" */}
       <AnimatePresence>
         {state === "flowers" && (
           <FlowerScene onComplete={handleFlowersComplete} />
@@ -42,10 +42,10 @@ export default function Home() {
       <AnimatePresence>
         {state === "exploring" && (
           <motion.div
-            initial={{ opacity: 0, y: 60 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
-              duration: 1.4,
+              duration: 1.1,
               ease: [0.22, 1, 0.36, 1],
             }}
           >

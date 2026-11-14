@@ -25,7 +25,7 @@ export default function PasscodeScreen({ onUnlock }: PasscodeScreenProps) {
       if (newCode.length === codeLength) {
         if (newCode === SECRET_CODE) {
           setSuccess(true);
-          setTimeout(() => onUnlock(), 1200);
+          setTimeout(() => onUnlock(), 1000);
         } else {
           setShake(true);
           setTimeout(() => {
@@ -63,7 +63,6 @@ export default function PasscodeScreen({ onUnlock }: PasscodeScreenProps) {
           exit={{ opacity: 0, scale: 1.05 }}
           transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
         >
-          {/* Heart Icon — smaller on mobile */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -71,7 +70,7 @@ export default function PasscodeScreen({ onUnlock }: PasscodeScreenProps) {
             className="mb-6 sm:mb-8"
           >
             <svg
-              className="w-10 h-10 sm:w-12 sm:h-11"
+              className="w-10 h-10 sm:w-12 sm:h-12"
               viewBox="0 0 48 44"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -83,7 +82,6 @@ export default function PasscodeScreen({ onUnlock }: PasscodeScreenProps) {
             </svg>
           </motion.div>
 
-          {/* Dot Indicators */}
           <motion.div
             className="flex gap-2.5 sm:gap-3 mb-8 sm:mb-10"
             animate={shake ? { x: [0, -12, 12, -12, 12, -6, 6, 0] } : {}}
@@ -92,22 +90,13 @@ export default function PasscodeScreen({ onUnlock }: PasscodeScreenProps) {
             {Array.from({ length: codeLength }).map((_, i) => (
               <motion.div
                 key={i}
-                className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full border-2 transition-colors duration-200 ${
-                  i < code.length
-                    ? "bg-crimson-500 border-crimson-500"
-                    : "bg-transparent border-gray-300"
-                }`}
-                animate={
-                  success && i < code.length
-                    ? { scale: [1, 1.4, 1], opacity: [1, 0.5, 1] }
-                    : {}
-                }
+                className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full border-2 transition-colors duration-200 ${i < code.length ? "bg-crimson-500 border-crimson-500" : "bg-transparent border-gray-300"}`}
+                animate={success && i < code.length ? { scale: [1, 1.4, 1], opacity: [1, 0.5, 1] } : {}}
                 transition={{ delay: i * 0.08, duration: 0.4 }}
               />
             ))}
           </motion.div>
 
-          {/* Keypad — larger touch targets on mobile */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -119,24 +108,14 @@ export default function PasscodeScreen({ onUnlock }: PasscodeScreenProps) {
               return (
                 <motion.button
                   key={key + index}
-                  className={`keypad-btn w-[72px] h-[72px] sm:w-[76px] sm:h-[76px] rounded-full flex items-center justify-center text-xl sm:text-2xl font-light transition-colors duration-150 ${
-                    isSpecial
-                      ? "text-crimson-400 bg-crimson-50 hover:bg-crimson-100 active:bg-crimson-200"
-                      : "text-gray-700 bg-gray-100 hover:bg-gray-200 active:bg-gray-300"
-                  }`}
+                  className={`keypad-btn w-[72px] h-[72px] sm:w-[76px] sm:h-[76px] rounded-full flex items-center justify-center text-xl sm:text-2xl font-light transition-colors duration-150 ${isSpecial ? "text-crimson-400 bg-crimson-50 hover:bg-crimson-100 active:bg-crimson-200" : "text-gray-700 bg-gray-100 hover:bg-gray-200 active:bg-gray-300"}`}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => {
                     if (key === "C") handleClear();
                     else if (key === "⌫") handleBackspace();
                     else handleDigit(key);
                   }}
-                  aria-label={
-                    key === "C"
-                      ? "Clear"
-                      : key === "⌫"
-                      ? "Backspace"
-                      : `Digit ${key}`
-                  }
+                  aria-label={key === "C" ? "Clear" : key === "⌫" ? "Backspace" : `Digit ${key}`}
                 >
                   {key}
                 </motion.button>
@@ -144,7 +123,6 @@ export default function PasscodeScreen({ onUnlock }: PasscodeScreenProps) {
             })}
           </motion.div>
 
-          {/* Hint Text */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

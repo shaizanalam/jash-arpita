@@ -13,59 +13,61 @@ interface SongCardProps {
 
 export default function SongCard({ song, index }: SongCardProps) {
   const [imageError, setImageError] = useState(false);
+  const [playing, setPlaying] = useState(false);
 
   return (
     <motion.div
       className="relative group"
-      initial={{ opacity: 0, y: 30, scale: 0.95 }}
+      initial={{ opacity: 0, y: 30, scale: 0.92 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.3 }}
+      viewport={{ once: true, amount: 0.25 }}
       transition={{
-        delay: index * 0.15,
-        duration: 0.6,
+        delay: index * 0.14,
+        duration: 0.7,
         type: "spring",
-        stiffness: 100,
+        stiffness: 110,
+        damping: 15,
       }}
-      whileHover={{ y: -6, transition: { duration: 0.3 } }}
+      whileHover={{ y: -8, transition: { duration: 0.4, ease: "easeOut" } }}
     >
       <div
-        className="rounded-xl overflow-hidden"
+        className="rounded-2xl overflow-hidden group-hover:border-crimson-300/60"
         style={{
-          background: "rgba(0, 0, 0, 0.4)",
-          border: "1px solid rgba(185, 28, 28, 0.4)",
-          boxShadow: "0 4px 30px rgba(185, 28, 28, 0.15)",
+          background: "rgba(255, 255, 255, 0.5)",
+          border: "1px solid rgba(255, 255, 255, 0.5)",
+          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.08)",
         }}
       >
-        <div className="flex items-center gap-4 p-3 sm:p-4">
+        <div className="flex items-center gap-4 sm:gap-5 p-3 sm:p-5">
           {/* Album Cover */}
-          <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden flex-shrink-0 bg-crimson-900">
+          <div className="relative w-18 h-18 sm:w-22 sm:h-22 rounded-xl overflow-hidden flex-shrink-0 bg-crimson-900/60 shadow-lg shadow-crimson-900/20">
             {!imageError ? (
               <Image
                 src={song.cover}
                 alt={`${song.title} by ${song.artist}`}
                 fill
-                className="object-cover group-hover:scale-110 transition-transform duration-500"
-                sizes="80px"
+                className="object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
+                sizes="120px"
                 onError={() => setImageError(true)}
                 loading="lazy"
               />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-crimson-700 to-crimson-900">
-                <Music className="w-6 h-6 text-white/50" />
+                <Music className="w-7 h-7 sm:w-8 sm:h-8 text-white/60" />
               </div>
             )}
           </div>
 
           {/* Song Info */}
           <div className="flex-1 min-w-0">
-            <h3 className="font-serif text-white text-sm sm:text-base font-semibold truncate">
+            <h3 className="font-serif text-white text-sm sm:text-base font-semibold tracking-tight">
               {song.title}
             </h3>
-            <p className="text-white/60 text-xs sm:text-sm truncate mt-0.5">
+            <p className="text-white/60 text-xs sm:text-sm mt-0.5">
               {song.artist}
             </p>
             {song.memory && (
-              <p className="text-white/40 text-xs mt-1 truncate font-script italic">
+              <p className="text-white/45 text-xs mt-1.5 font-script italic leading-tight">
                 {song.memory}
               </p>
             )}
@@ -73,11 +75,15 @@ export default function SongCard({ song, index }: SongCardProps) {
 
           {/* Play Button */}
           <motion.button
-            className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-            whileTap={{ scale: 0.9 }}
+            className="flex-shrink-0 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-white hover:bg-crimson-50 flex items-center justify-center transition-all duration-200 active:scale-95"
+            whileTap={{ scale: 0.92 }}
+            onClick={() => setPlaying((p) => !p)}
             aria-label={`Play ${song.title}`}
           >
-            <Play className="w-4 h-4 sm:w-5 sm:h-5 text-white ml-0.5" fill="white" />
+            <Play
+              className={`w-4 h-4 sm:w-5 sm:h-5 text-crimson-600 ml-0.5 transition-colors duration-200 ${playing ? "text-crimson-900" : ""}`}
+              fill="currentColor"
+            />
           </motion.button>
         </div>
       </div>
