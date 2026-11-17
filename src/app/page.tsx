@@ -4,7 +4,8 @@ import { useState, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import PasscodeScreen from "@/components/unlock/PasscodeScreen";
 import FlowerScene from "@/components/flowers/FlowerScene";
-import MemorySection from "@/components/memories/MemorySection";
+import BirthdayHero from "@/components/memories/BirthdayHero";
+import MemoriesGallery from "@/components/memories/MemoriesGallery";
 import LetterSection from "@/components/letter/LetterSection";
 import SongsSection from "@/components/songs/SongsSection";
 import FinaleSection from "@/components/finale/FinaleSection";
@@ -49,7 +50,8 @@ export default function Home() {
               ease: [0.22, 1, 0.36, 1],
             }}
           >
-            <MemorySection />
+            <BirthdayHero />
+            <MemoriesGallery />
             <LetterSection />
             <SongsSection />
             <FinaleSection />

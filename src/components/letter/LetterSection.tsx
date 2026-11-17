@@ -117,7 +117,7 @@ export default function LetterSection() {
           {/* Signature */}
           <motion.div className="text-right" variants={itemVariants}>
             <p className="font-script text-xl sm:text-2xl md:text-3xl italic mb-1" style={{ color: "#5a2d00" }}>
-              {content.letterSignature},
+              {content.letterSignature.replace(/,+$/, "")},
             </p>
             <p className="font-script text-lg sm:text-xl md:text-2xl" style={{ color: "#7a4a10" }}>
               {content.letterSignatureName}
